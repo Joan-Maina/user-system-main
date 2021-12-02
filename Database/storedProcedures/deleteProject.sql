@@ -1,4 +1,4 @@
-ALTER PROCEDURE [dbo].[deleteproject]
+CREATE OR ALTER PROCEDURE [dbo].[deleteproject]
 (
     @projectid varchar(255)
 )

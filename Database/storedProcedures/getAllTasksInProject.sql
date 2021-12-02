@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[gettaskinproject]
+CREATE OR ALTER PROCEDURE [dbo].[gettasksinproject]
 (
     @projectid INT
 )
