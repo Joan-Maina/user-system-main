@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[getUser]
+CREATE OR ALTER PROCEDURE [dbo].[getuser]
 	@email VARCHAR(255)
 AS
 --reduce traffic

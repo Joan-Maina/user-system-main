@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[getProject]
+CREATE OR ALTER PROCEDURE [dbo].[getproject]
 	@projectid INT
 AS
 --reduce traffic

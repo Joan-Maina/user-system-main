@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[RegisterUser]
+CREATE OR ALTER PROCEDURE [dbo].[registeruser]
 	@firstname varchar(50),
 	@lastname varchar(50),
 	@email varchar(255),

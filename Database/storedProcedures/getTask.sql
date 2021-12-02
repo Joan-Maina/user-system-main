@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[getTask]
+CREATE OR ALTER PROCEDURE [dbo].[gettask]
 	@taskid INT
 AS
 --reduce traffic
