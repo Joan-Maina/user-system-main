@@ -7,5 +7,4 @@ BEGIN
 	SELECT * 
         FROM [dbo].[userDetails]
             WHERE email = @email AND isDeleted = 0
-            FOR JSON AUTO;
 END;
