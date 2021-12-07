@@ -1,0 +1,39 @@
+
+@hostname = localhost
+@port = 8000
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+
+# POST /users
+POST http://{{host}}/users/signup HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "firstname":"joan",
+    "lastname":"maina",
+    "email": "joan@maina.com",
+    "password": "Joan#1234567",
+    "confirmpassword" : "Joan#1234567"
+}
+###
+POST http://{{host}}/users/login HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+
+    "email": "joan@maina.com",
+    "password": "Joan#1234567"
+}
+###
+
+POST http://{{host}}/users/getusers HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: {"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvYW5AbWFpbmEuY29tIiwicGFzc3dvcmQiOiJKb2FuIzEyMzQ1NjciLCJpYXQiOjE2Mzg4NTk2ODIsImV4cCI6MTYzODg2MzI4Mn0.oot0muKB3xdTHNQgw-_Gc0mH8qQLQfmVQEJnJnxes0M "}
+
+{
+    "firstname":"joan",
+    "lastname":"maina",
+    "email": "joan@maina.com",
+    "password": "Joan#134567"
+    }
+    
