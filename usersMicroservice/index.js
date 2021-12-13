@@ -1,8 +1,11 @@
 const express = require("express");
 const usersRoute = require("./routes");
-const PORT = process.env.PORT || 9000;
+const cors = require("cors");
+// eslint-disable-next-line no-undef
+const PORT = process.env.PROJECT_PORT || 9000;
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/users", usersRoute);

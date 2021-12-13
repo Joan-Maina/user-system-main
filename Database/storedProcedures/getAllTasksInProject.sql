@@ -1,12 +1,15 @@
 CREATE OR ALTER PROCEDURE [dbo].[gettasksinproject]
 (
-    @projectid INT
+    @email VARCHAR(255)
 )
 AS
 BEGIN
     SET NOCOUNT ON;
-   SELECT * 
+   SELECT  taskTitle, taskStartDate, taskEnddate,isCompleted
    FROM [dbo].[taskDetails]
-   WHERE projectId = @projectid;
+   INNER JOIN taskAssignment ON taskAssignment.taskId = taskDetails.taskId 
+   WHERE
+   taskAssignment.taskLead = @email
+   AND isDeleted = 0;
 END;
 GO
