@@ -6,12 +6,9 @@ module.exports = async (req, res) => {
     let { firstname, lastname, email, password } = req.body;
 
     let { recordset } = await connection.execute("getuser", { email });
-    let auth = await bcrypt.compare(password, recordset[0].password);
-    if (
-      firstname !== recordset[0].firstname ||
-      lastname !== recordset[0].lastname ||
-      email !== recordset[0].email
-    )
+    let user = recordset[0];
+    let auth = await bcrypt.compare(password, user.password);
+    if (firstname !== user.firstname || lastname !== user.lastname)
       return res.status(400).send("Wrong inputs");
     if (auth) return res.status(400).send("Choose a different password");
 

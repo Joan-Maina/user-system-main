@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 require("dotenv").config();
+
 module.exports = {
   server: process.env.MSSQL_SERVER,
   port: 1433,

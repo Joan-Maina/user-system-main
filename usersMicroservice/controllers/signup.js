@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
 
     //compare password and confirmpassword
     if (password !== confirmpassword)
-      return res.status(400).send({ message: "Passwords do not match" });
+      return res.send({ message: "Passwords do not match" });
 
     const { error } = await validate({
       firstname,
@@ -18,12 +18,12 @@ module.exports = async (req, res) => {
       confirmpassword,
     });
 
-    if (error) return res.status(400).send(error.message);
+    if (error) return res.send(error.message);
     //check if user has the email provided
     let { recordset } = await dbconnection.execute("getuser", { email });
-    console.log(recordset.length);
+
     if (recordset.length !== 0)
-      return res.status(400).send("Account already exists");
+      return res.send({ message: "Account already exists" });
     //encrypt password and register user
     const pass = await encrypt(password);
     console.log(pass);
@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
       email,
       pass,
     });
-    res.send("Successfully registered");
+    res.send({ message: "Successfully registered" });
   } catch (error) {
     console.log(error.message);
   }

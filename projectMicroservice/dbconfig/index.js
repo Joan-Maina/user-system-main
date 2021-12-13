@@ -1,19 +1,17 @@
-/* eslint-disable no-undef */
 const mssql = require("mssql");
-const config = require("./config");
-
+const config = require("./db_config");
+require("dotenv").config();
 const connection = async () => {
   let pool = null;
   try {
     pool = mssql.connect(config);
-    console.log("connected successfully to db");
+    console.log(process.env.MSSQL_SERVER);
   } catch (error) {
-    console.log(`Error occurred : ${error.message}`);
+    res.status(400).send(error.message);
   }
   return pool;
 };
-
-const createRequest = async (request, params = {}) => {
+const createRequest = async (request, params) => {
   const keys = Object.keys(params);
   keys.map((keyName) => {
     const keyValue = params[keyName];
@@ -21,17 +19,15 @@ const createRequest = async (request, params = {}) => {
   });
   return request;
 };
-const execution = async (procedureName, params = {}) => {
+const execution = async (procedureTitle, params = {}) => {
   const requestone = await connection();
   const requesttwo = await requestone.request();
   request = await createRequest(requesttwo, params);
-  const results = await request.execute(procedureName);
+  const results = await request.execute(procedureTitle);
   return results;
 };
-
 const querying = async (query) => {
-  const results = await connection().request.query(query);
+  const results = await (await connection()).request.query(query);
   return results;
 };
-
 module.exports = { query: querying, execute: execution };

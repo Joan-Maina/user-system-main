@@ -7,6 +7,7 @@ module.exports = (req, res, next) => {
 
   if (token) {
     token = token.slice(7);
+    // eslint-disable-next-line no-undef
     verify(token, process.env.SECRET_KEY, (decoded) => {
       if (!decoded) {
         return res.json({
