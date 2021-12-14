@@ -6,9 +6,7 @@ CREATE OR ALTER PROCEDURE [dbo].[assigntask]
 AS
 BEGIN
     SET NOCOUNT ON;
- UPDATE [dbo].[taskAssignment]
-            SET taskLead = @email
-            WHERE
-                taskId = @taskid;
+ INSERT INTO [dbo].[taskAssignment]
+ VALUES (@taskid, @email)
 END;
 GO

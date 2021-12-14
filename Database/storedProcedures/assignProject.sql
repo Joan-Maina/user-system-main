@@ -7,9 +7,7 @@ CREATE OR ALTER PROCEDURE [dbo].[assignproject]
 AS
 BEGIN
     SET NOCOUNT ON;
- UPDATE [dbo].[projectAssignment]
-            SET projectLead = @email
-            WHERE
-                projectId = @projectid;
+ INSERT INTO [dbo].[projectAssignment]
+            VALUES  @projectid, @email;
 END;
 GO

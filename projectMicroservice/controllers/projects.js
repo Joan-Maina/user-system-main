@@ -50,10 +50,15 @@ const updateProject = async (req, res) => {
     res.send(error.message);
   }
 };
-const assignProject = async(req, res) => {
-  let {email, projectId} = req.body;
-  
-}
+const assignProject = async (req, res) => {
+  try {
+    let { email, projectId } = req.body;
+    await connection.execute("assignproject", { email, projectId });
+    res.send({ message: "project successfully assigned" });
+  } catch (error) {
+    res.send({ message: error.message });
+  }
+};
 const deleteProject = async (req, res) => {
   try {
     let { projectId } = req.body;
@@ -68,6 +73,7 @@ const deleteProject = async (req, res) => {
 module.exports = {
   registerProject,
   updateProject,
+  assignProject,
   getProjects,
   deleteProject,
   getProject,
