@@ -6,7 +6,6 @@ const lodash = require("lodash");
 module.exports = async (req, res) => {
   try {
     let { email, password } = req.body;
-    console.log(email);
     let { recordset } = await dbconnection.execute("getuser", { email });
 
     let user = recordset[0];
