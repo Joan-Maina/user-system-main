@@ -2,18 +2,19 @@ const connection = require("../dbconfig");
 
 const registerProject = async (req, res) => {
   try {
-    let { projectTitle, projectClient, projectStartDate, projectEnddate } =
+    let { projectTitle, projectClient, projectStartdate, projectEnddate } =
       req.body;
-    console.log(projectTitle);
     await connection.execute("registerproject", {
       projectTitle,
       projectClient,
-      projectStartDate,
+      projectStartdate,
       projectEnddate,
     });
     res.send({ message: "project inserted" });
   } catch (error) {
-    res.send(error.message);
+    res.status(400).send({
+      message: error.message,
+    });
   }
 };
 
@@ -26,8 +27,20 @@ const getProjects = async (req, res) => {
   if (recordset.length === 0) {
     res.send({ message: "No projects assigned" });
   }
+  console.log(recordset);
   res.send(recordset);
 };
+
+const getallprojects = async (req, res) => {
+  try {
+    let { recordset } = await connection.execute("getallprojects");
+    res.send(recordset);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send(error.message);
+  }
+};
+
 const getProject = async (req, res) => {
   try {
     //get email
@@ -61,9 +74,9 @@ const assignProject = async (req, res) => {
 };
 const deleteProject = async (req, res) => {
   try {
-    let { projectId } = req.body;
-
-    await connection.execute("deleteproject"), { projectId };
+    let { projectid } = req.body;
+    console.log(projectid);
+    await connection.execute("deleteproject", { projectid });
     res.send({ message: "project successfully deleted" });
   } catch (error) {
     res.send(error.message);
@@ -77,4 +90,5 @@ module.exports = {
   getProjects,
   deleteProject,
   getProject,
+  getallprojects,
 };

@@ -1,6 +1,6 @@
 CREATE OR ALTER PROCEDURE [dbo].[deleteproject]
 (
-    @projectid varchar(255)
+    @projectid INT
 )
 AS
 BEGIN
