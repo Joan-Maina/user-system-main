@@ -1,7 +1,5 @@
 import React from "react";
-import axios from "axios";
 import Navbar from "../components/Navbar";
-import { useSelector } from "react-redux";
 
 function Home() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -11,9 +9,11 @@ function Home() {
       <Navbar />
 
       {user === null || undefined ? (
-        <h2 style={{ margin: "25% 25%" }}>You are not logged in</h2>
+        <h2 style={{ margin: "25% 25%", color: "black" }}>
+          You are not logged in
+        </h2>
       ) : (
-        <h2 style={{ margin: "25% 25%" }}>
+        <h2 style={{ margin: "25% 25%", color: "black" }}>
           Welcome back {user.user.firstname}
         </h2>
       )}

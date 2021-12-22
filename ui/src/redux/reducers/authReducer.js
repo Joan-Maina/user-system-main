@@ -9,22 +9,27 @@ import {
 } from "../types";
 
 const user = JSON.parse(localStorage.getItem("user"));
+console.log(user);
 const initialState = {
   user: {},
   users: [],
-  error: [],
+  error: "",
+  message: "",
 };
 
-const authReducer = (state = initialState, { type, payload }) => {
+const authReducer = (state = initialState, { type, payload, message }) => {
   switch (type) {
     case GET_USER_SUCCESS:
       return {
         ...state,
+        error: "",
+        message: message,
       };
     case GET_USER_FAIL:
       return {
         ...state,
         error: payload,
+        message: "",
       };
     case GET_USERS_SUCCESS:
       return {

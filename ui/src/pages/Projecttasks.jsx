@@ -1,23 +1,28 @@
 import React from "react";
-import Button from "../components/Button";
 import moment from "moment";
 import Navbar from "../components/Navbar";
-import { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getalltasks, deleteTask, getTasks } from "../redux/actions/tasks";
-import { Link } from "react-router-dom";
+import { deleteTask, getTasks } from "../redux/actions/tasks";
+import { useHistory } from "react-router-dom";
 
 function Tasks(id) {
   const projectid = id.location.state.id;
   const dispatch = useDispatch();
-  const { tasks } = useSelector((state) => state.task);
-  // useEffect(() => {
-  //   dispatch(getTasks({ id: projectid }));
-  // }, [dispatch]);
-  console.log(tasks);
-  const handleDelete = (taskId) => {
-    console.log("jo");
-    dispatch(deleteTask(taskId));
+  const history = useHistory();
+
+  const { projectTasks } = useSelector((state) => state.task);
+  const { users } = useSelector((state) => state.auth);
+  console.log(users);
+  const [email, setEmail] = useState("");
+
+  const handleDelete = async (taskId) => {
+    await dispatch(deleteTask(taskId));
+    console.log(projectid);
+    await dispatch(getTasks(projectid));
+  };
+  const handleAdd = (projectid) => {
+    history.push("/addtask", projectid);
   };
 
   return (
@@ -36,8 +41,8 @@ function Tasks(id) {
           </tr>
         </thead>
         <tbody>
-          {tasks.length > 0 ? (
-            tasks.map((task) => (
+          {projectTasks.length > 0 ? (
+            projectTasks.map((task) => (
               <tr
                 key={task.taskId}
                 // onClick={() => handleAssign({ id: task.taskId })}
@@ -53,33 +58,13 @@ function Tasks(id) {
                     onClick={() => handleDelete({ taskId: task.taskId })}
                   ></i>
                 </td>
-                <div class="dropdown" style={{ width: "10px" }}>
-                  <button
-                    class="btn btn-secondary dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    style={{ width: "10px" }}
-                  >
-                    Dropdown button
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton"
-                  >
-                    <a class="dropdown-item" href="#">
-                      Action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </div>
-                </div>
+                <td>
+                  <select>
+                    {users.map((user) => (
+                      <option value={email}>{user.email}</option>
+                    ))}
+                  </select>
+                </td>
               </tr>
             ))
           ) : (
@@ -87,9 +72,7 @@ function Tasks(id) {
           )}
         </tbody>
       </table>
-      <Link to={"/addtask"}>
-        <Button text={"Add task"} />
-      </Link>
+      <button onClick={() => handleAdd(projectid)}>Add task</button>
     </>
   );
 }

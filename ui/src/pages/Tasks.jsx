@@ -4,11 +4,24 @@ import moment from "moment";
 import Navbar from "../components/Navbar";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getalltasks, deleteTask } from "../redux/actions/tasks";
+import {
+  getalltasks,
+  deleteTask,
+  assigntask,
+  marktaskcomplete,
+} from "../redux/actions/tasks";
+import { useState } from "react";
 
 function Tasks() {
   const dispatch = useDispatch();
   const { tasks } = useSelector((state) => state.task);
+  const { users } = useSelector((state) => state.auth);
+  const [data, setData] = useState({
+    email: "",
+    taskId: "",
+  });
+  // const [task, setTask] = useState();
+
   useEffect(() => {
     dispatch(getalltasks());
   }, [dispatch]);
@@ -18,6 +31,19 @@ function Tasks() {
   }, [dispatch]);
   const handleDelete = (taskId) => {
     dispatch(deleteTask(taskId));
+  };
+  const handleChange = (e, taskId) => {
+    e.preventDefault();
+    data[e.target.id] = e.target.value;
+    data["taskId"] = taskId;
+    setData(data);
+    dispatch(assigntask(data));
+    dispatch(getalltasks());
+  };
+  const handleComplete = (taskid) => {
+    console.log(taskid);
+    dispatch(marktaskcomplete(taskid));
+    dispatch(getalltasks());
   };
   return (
     <>
@@ -38,8 +64,28 @@ function Tasks() {
         <tbody>
           {tasks.length > 0 ? (
             tasks.map((task) => (
-              <tr key={task.taskId}>
-                <th scope="row">{task.taskId}</th>
+              <tr
+                key={task.taskId}
+                style={
+                  task.isCompleted
+                    ? { backgroundColor: "green" }
+                    : { backgroundColor: "white" }
+                }
+              >
+                <th scope="row">
+                  {!task.isCompleted ? (
+                    <input
+                      style={{ width: "20px" }}
+                      type="checkbox"
+                      id="complete"
+                      name="taskcomplete"
+                      value={task.complete}
+                      onChange={() => handleComplete(task.taskId)}
+                    />
+                  ) : (
+                    "completed"
+                  )}
+                </th>
                 <td>{task.taskTitle}</td>
                 <td>{task.projectTitle}</td>
                 <td>{moment(task.taskStartdate).format("dddd Do MMMM")}</td>
@@ -52,10 +98,20 @@ function Tasks() {
                   ></i>
                 </td>
                 <td>
-                  <select>
-                    <option>Volvo</option>
-                    <option>JOna</option>
-                  </select>
+                  {task.isAssigned ? (
+                    "Assigned"
+                  ) : (
+                    <select
+                      value={data.email}
+                      id="email"
+                      onChange={(e) => handleChange(e, task.taskId)}
+                    >
+                      {" "}
+                      {users.map((user) => (
+                        <option name={user.email}>{user.email}</option>
+                      ))}
+                    </select>
+                  )}
                 </td>
               </tr>
             ))
@@ -64,9 +120,6 @@ function Tasks() {
           )}
         </tbody>
       </table>
-      {/* <Link to={"/addtask"}>
-        <Button text={"Add task"} />
-      </Link> */}
     </>
   );
 }

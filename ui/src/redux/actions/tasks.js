@@ -7,6 +7,14 @@ import {
   DELETE_TASK_FAIL,
   GET_PROJECT_TASKS_FAIL,
   GET_PROJECT_TASKS_SUCCESS,
+  DELETE_TASK_SUCCESS,
+  ASSIGN_TASK_FAIL,
+  ASSIGN_TASK_SUCCESS,
+  MARK_AS_COMPLETE_SUCCESS,
+  MARK_AS_COMPLETE_FAIL,
+  MARK_TASK_COMPLETE_SUCCESS,
+  MARK_TASK_COMPLETE_FAIL,
+  REGISTERTASK,
 } from "../types";
 
 export const registerTask =
@@ -14,6 +22,9 @@ export const registerTask =
   async (dispatch) => {
     console.log(taskTitle);
     try {
+      dispatch({
+        type: REGISTERTASK,
+      });
       const { data } = await axios.post(
         "http://localhost:8088/tasks/registertask",
         {
@@ -23,15 +34,14 @@ export const registerTask =
           taskEnddate,
         }
       );
-      console.log(data);
-      setTimeout(alert("moo"), 10000);
       dispatch({
         type: REGISTERTASK_SUCCESS,
-        payload: data,
+        payload: data.message,
       });
     } catch (error) {
       dispatch({
         type: REGISTERTASK_FAIL,
+        payload: error.message,
       });
     }
   };
@@ -42,7 +52,7 @@ export const getTasks = (id) => async (dispatch) => {
       "http://localhost:8088/tasks/getprojecttasks",
       id
     );
-    console.log(data.message);
+    console.log(data);
     if (data.message) {
       dispatch({
         type: GET_PROJECT_TASKS_FAIL,
@@ -57,6 +67,7 @@ export const getTasks = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_PROJECT_TASKS_FAIL,
+      payload: error,
     });
   }
 };
@@ -77,7 +88,6 @@ export const getalltasks = () => async (dispatch) => {
 };
 
 export const deleteTask = (taskId) => async (dispatch) => {
-  console.log(taskId);
   try {
     const { data } = await axios.post(
       "http://localhost:8088/tasks/deletetask",
@@ -93,5 +103,77 @@ export const deleteTask = (taskId) => async (dispatch) => {
         payload: data,
       });
     }
-  } catch (error) {}
+  } catch (error) {
+    dispatch({
+      type: DELETE_TASK_FAIL,
+      payload: error,
+    });
+  }
+};
+
+export const deleteProjectTask = (taskId) => async (dispatch) => {
+  try {
+    const { data } = await axios.post(
+      "http://localhost:8088/tasks/deletetask",
+
+      taskId
+    );
+    console.log(data);
+    if (data.message) {
+      dispatch({
+        type: DELETE_TASK_SUCCESS,
+        payload: taskId,
+      });
+    } else {
+      dispatch({
+        type: DELETE_TASK_FAIL,
+        payload: data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: DELETE_TASK_FAIL,
+      payload: error,
+    });
+  }
+};
+export const assigntask =
+  ({ email, taskId }) =>
+  async (dispatch) => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:8088/tasks/assigntask",
+
+        { email, taskId }
+      );
+      console.log(data);
+      dispatch({
+        type: ASSIGN_TASK_SUCCESS,
+      });
+    } catch (error) {
+      console.log(error);
+
+      dispatch({
+        type: ASSIGN_TASK_FAIL,
+        payload: error,
+      });
+    }
+  };
+export const marktaskcomplete = (taskid) => async (dispatch) => {
+  console.log(taskid);
+  try {
+    const { data } = await axios.post(
+      "http://localhost:8088/tasks/updatetask",
+      { taskid }
+    );
+    console.log(data);
+    dispatch({
+      type: MARK_TASK_COMPLETE_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: MARK_TASK_COMPLETE_FAIL,
+      payload: error,
+    });
+  }
 };

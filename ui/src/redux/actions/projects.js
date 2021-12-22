@@ -1,7 +1,9 @@
 import {
   DELETE_PROJECT_FAIL,
-  DELETE_PROJECT_SUCCESS,
+  GET_PROJECTS_FAIL,
   GET_PROJECTS_SUCCESS,
+  MARK_AS_COMPLETE_FAIL,
+  MARK_AS_COMPLETE_SUCCESS,
   REGISTERPROJECT_FAIL,
   REGISTERPROJECT_SUCCESS,
 } from "../types";
@@ -45,14 +47,16 @@ export const getProjects = () => async (dispatch) => {
       "http://localhost:8088/projects/getallprojects",
       config
     );
-    console.log(data);
 
     dispatch({
       type: GET_PROJECTS_SUCCESS,
       payload: data,
     });
   } catch (error) {
-    console.log(error.message);
+    dispatch({
+      type: GET_PROJECTS_FAIL,
+      payload: error,
+    });
   }
 };
 export const deleteProject =
@@ -65,7 +69,6 @@ export const deleteProject =
           projectid,
         }
       );
-      console.log(data);
       {
         data.message
           ? dispatch(getProjects())
@@ -77,6 +80,27 @@ export const deleteProject =
     } catch (error) {
       dispatch({
         type: DELETE_PROJECT_FAIL,
+        payload: error,
+      });
+    }
+  };
+export const markascomplete =
+  ({ projectid }) =>
+  async (dispatch) => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:8088/projects/updateproject",
+        { projectid }
+      );
+      console.log(data);
+      {
+        data.message
+          ? dispatch({ type: MARK_AS_COMPLETE_SUCCESS })
+          : dispatch({ type: MARK_AS_COMPLETE_FAIL, payload: data });
+      }
+    } catch (error) {
+      dispatch({
+        type: MARK_AS_COMPLETE_FAIL,
         payload: error,
       });
     }

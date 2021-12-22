@@ -17,14 +17,17 @@ import Addtask from "./pages/Addtask";
 import Projecttasks from "./pages/Projecttasks";
 import Users from "./pages/Users";
 function App() {
-  const state = useSelector((state) => state);
-  console.log(state);
-  // const { user } = useSelector((state) => state.auth);
+  // const { user } = JSON.parse(localStorage.getItem("user"));
+  // console.log(user);
   return (
     <Router>
       <div className="App">
         <Switch className="App">
-          <Route className="path" exact path="/" component={Home} />
+          <Route className="path" exact path="/" component={Login} />
+
+          <Route className="path" exact path="/dashboard" component={Home} />
+          <Route className="path" exact path="/signup" component={Signup} />
+
           <Route
             className="path"
             exact
@@ -50,7 +53,6 @@ function App() {
             <Route className="path" exact path="/project" component={Project} />
           )}
           <Route className="path" exact path="/signup" component={Signup} /> */}
-          <Route className="path" exact path="/login" component={Login} />
 
           <Route className="path" exact path="/tasks" component={Tasks} />
           <Route className="path" exact path="/addtask" component={Addtask} />
@@ -60,8 +62,9 @@ function App() {
             path="/projecttasks"
             component={Projecttasks}
           />
-          <Route className="path" exact path="/user" component={Users} />
           <Route className="path" exact path="/project" component={Project} />
+          {/* )} */}
+          <Route className="path" exact path="/user" component={Users} />
         </Switch>
       </div>
     </Router>

@@ -1,13 +1,16 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import { useEffect } from "react";
-import { getallusers } from "../redux/actions/auth";
+import { deleteUser, getallusers } from "../redux/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 
 function Users() {
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.auth);
-  console.log(users);
+  const handleDelete = ({ user }) => {
+    console.log(user);
+    dispatch(deleteUser(user));
+  };
   useEffect(() => {
     dispatch(getallusers());
   }, [dispatch]);
@@ -19,13 +22,10 @@ function Users() {
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Task title</th>
-
-            <th scope="col"> Project</th>
-            <th scope="col">Start</th>
-            <th scope="col">End</th>
+            <th scope="col">First name</th>
+            <th scope="col"> Last name</th>
+            <th scope="col">Email</th>
             <th scope="col">Delete</th>
-            <th scope="col">Assign</th>
           </tr>
         </thead>
         <tbody>
@@ -36,18 +36,17 @@ function Users() {
                 <td>{user.firstname}</td>
                 <td>{user.lastname}</td>
                 <td>{user.email}</td>
-
-                {/* <td>
+                <td>
                   <i
                     class="fa fa-trash"
                     aria-hidden="true"
-                    onClick={() => handleDelete({ taskId: task.taskId })}
+                    onClick={() => handleDelete({ user: user.email })}
                   ></i>
-                </td> */}
+                </td>
               </tr>
             ))
           ) : (
-            <td>No tasks</td>
+            <td>No users</td>
           )}
         </tbody>
       </table>

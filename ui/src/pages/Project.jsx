@@ -4,7 +4,12 @@ import "../styles/Project.css";
 import moment from "moment";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjects, deleteProject } from "../redux/actions/projects";
+import {
+  getProjects,
+  deleteProject,
+  markascomplete,
+} from "../redux/actions/projects";
+import { getallusers } from "../redux/actions/auth";
 import { Link, useHistory } from "react-router-dom";
 import Button from "../components/Button";
 import { getTasks } from "../redux/actions/tasks";
@@ -14,28 +19,22 @@ function Project() {
   const history = useHistory();
 
   const { projects } = useSelector((state) => state.project);
-  const { tasks } = useSelector((state) => state.task);
   useEffect(() => {
     dispatch(getProjects());
   }, [dispatch]);
 
-  const style = {
-    borderRadius: "5px",
-    backgroundColor: "black",
-    color: "white",
-  };
   const handleDelete = (projectid) => {
     dispatch(deleteProject(projectid));
   };
   const handleClick = async (id) => {
-    // await dispatch(getTasks(id));
-    // if (tasks.length === 0) {
-    // const opinion = window.confirm("Create a new task");
-    // if (opinion) {
-    // history.push("/addtask", id);
-    // }
-    // } else {
+    await dispatch(getTasks(id));
+
+    dispatch(getallusers());
+
     history.push("/projecttasks", id);
+  };
+  const handleDoubleclick = async (projectid) => {
+    dispatch(markascomplete(projectid));
   };
   return (
     <>
@@ -57,6 +56,14 @@ function Project() {
               <tr
                 key={project.projectId}
                 onClick={() => handleClick({ id: project.projectId })}
+                onDoubleClick={() =>
+                  handleDoubleclick({ projectid: project.projectId })
+                }
+                style={
+                  project.isCompleted
+                    ? { backgroundColor: "green" }
+                    : { backgroundColor: "white" }
+                }
               >
                 <th scope="row">{project.projectId}</th>
                 <td>{project.projectTitle}</td>

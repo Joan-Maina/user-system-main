@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "../styles/Signup.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/Button";
 import { register } from "../redux/actions/auth";
 
 function Signup() {
+  const history = useHistory();
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state);
-
+  const { error, message } = useSelector((state) => state.auth);
   const [data, setData] = useState({
     firstname: "",
     lastname: "",
@@ -28,6 +27,7 @@ function Signup() {
     e.preventDefault();
     dispatch(register(data));
   };
+
   const style = {
     backgroundColor: "black",
     color: "white",
@@ -51,6 +51,8 @@ function Signup() {
           </div>
 
           <form className="signupform" onSubmit={(e) => submit(e)}>
+            {error && <h4 style={{ color: "red" }}>{error}</h4>}
+            {message && <h4 style={{ color: "green" }}>{message}</h4>}
             <h3>SIGN UP</h3>
             <label>Firstname</label>
             <input
@@ -98,7 +100,7 @@ function Signup() {
               required
             />
             <Button text="SIGN UP" style={style} />
-            <Link to="login">
+            <Link to="">
               <p>Already have an account? </p>
             </Link>
           </form>

@@ -3,6 +3,8 @@ import {
   DELETE_PROJECT_SUCCESS,
   GET_PROJECTS_FAIL,
   GET_PROJECTS_SUCCESS,
+  MARK_AS_COMPLETE_FAIL,
+  MARK_AS_COMPLETE_SUCCESS,
   REGISTERPROJECT,
   REGISTERPROJECT_FAIL,
   REGISTERPROJECT_SUCCESS,
@@ -45,6 +47,15 @@ const projectReducer = (state = initialState, { type, payload }) => {
         ...state,
       };
     case DELETE_PROJECT_FAIL:
+      return {
+        ...state,
+        error: payload,
+      };
+    case MARK_AS_COMPLETE_SUCCESS:
+      return {
+        ...state,
+      };
+    case MARK_AS_COMPLETE_FAIL:
       return {
         ...state,
         error: payload,

@@ -45,15 +45,17 @@ export const register =
         password,
         confirmpassword,
       });
+      console.log(data.message);
 
       dispatch({
         type: GET_USER_SUCCESS,
-        payload: data.user,
+        message: data.message,
       });
     } catch (error) {
+      console.log(error.message);
       dispatch({
         type: GET_USER_FAIL,
-        payload: error,
+        payload: error.message,
       });
     }
   };
@@ -61,9 +63,9 @@ export const register =
 export const logout = () => (dispatch) => {
   console.log(localStorage);
   localStorage.removeItem("user");
-  // dispatch({
-  //   type: LOGOUT,
-  // });
+  dispatch({
+    type: LOGOUT,
+  });
 };
 
 export const getallusers = () => async (dispatch) => {
@@ -82,6 +84,7 @@ export const getallusers = () => async (dispatch) => {
       {},
       config
     );
+    console.log(data);
     dispatch({
       type: GET_USERS_SUCCESS,
       payload: data,
@@ -92,5 +95,18 @@ export const getallusers = () => async (dispatch) => {
       type: GET_USERS_FAIL,
       payload: error,
     });
+  }
+};
+export const deleteUser = (user) => async (dispatch) => {
+  try {
+    const { data } = await axios.post(
+      "http://localhost:8000/users/deleteuser",
+      {
+        email: user,
+      }
+    );
+    console.log(data);
+  } catch (error) {
+    // dispatch({});
   }
 };
