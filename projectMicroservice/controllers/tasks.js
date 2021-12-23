@@ -1,3 +1,4 @@
+const { connect } = require("mssql");
 const connection = require("../dbconfig");
 
 const registerTask = async (req, res) => {
@@ -28,6 +29,15 @@ const getTasks = async (req, res) => {
     res.status(201).send(recordset);
   } catch (error) {
     res.status(400).send(error.message);
+  }
+};
+const getassignedtasks = async (req, res) => {
+  try {
+    let { email } = req.body;
+    let { recordset } = await connection.execute("getassignedtasks", { email });
+    res.status(201).send(recordset);
+  } catch (error) {
+    res.status(201).send(error.message);
   }
 };
 
@@ -81,4 +91,5 @@ module.exports = {
   deleteTask,
   assignTask,
   getalltasks,
+  getassignedtasks,
 };

@@ -30,6 +30,7 @@ function Addproject() {
     e.preventDefault();
     dispatch(registerProject(data));
     history.push("/project");
+    window.location.reload();
   };
 
   const style = {

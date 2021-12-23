@@ -1,0 +1,23 @@
+#usertasks {
+  margin-top: -10px;
+}
+.logout {
+  color: white;
+  background-color: #000080;
+  border-radius: 50px;
+  border-style: none;
+  padding: 15px;
+  margin-top: 20px;
+  margin-left: 25%;
+}
+
+.logout:hover {
+  transform: scale(1.5);
+  margin-left: 305px;
+}
+@media only screen and (max-width: 600px) {
+  .logout:hover {
+    transform: scale(1.5);
+    margin-left: 200px;
+  }
+}

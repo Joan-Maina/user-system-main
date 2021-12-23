@@ -39,7 +39,7 @@ function Navbar() {
           <h5>Tasks</h5>
         </NavLink>
         <NavLink activeClassName="active" to={"/user"}>
-          <h5>Users</h5>
+          <h5>User</h5>
         </NavLink>
         {userdata === null || undefined ? (
           <NavLink to="">

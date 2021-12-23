@@ -33,7 +33,7 @@ function Tasks(id) {
     e.preventDefault();
     console.log(data);
     dispatch(registerTask(data));
-    history.push("/project");
+    history.goBack();
   };
   const style = {
     backgroundColor: "black",

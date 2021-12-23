@@ -10,11 +10,11 @@ import {
   DELETE_TASK_SUCCESS,
   ASSIGN_TASK_FAIL,
   ASSIGN_TASK_SUCCESS,
-  MARK_AS_COMPLETE_SUCCESS,
-  MARK_AS_COMPLETE_FAIL,
   MARK_TASK_COMPLETE_SUCCESS,
   MARK_TASK_COMPLETE_FAIL,
   REGISTERTASK,
+  GET_ASSIGNED_TASKSUCCESS,
+  GET_ASSIGNED_TASKSFAIL,
 } from "../types";
 
 export const registerTask =
@@ -177,3 +177,23 @@ export const marktaskcomplete = (taskid) => async (dispatch) => {
     });
   }
 };
+export const getassignedtasks =
+  ({ email }) =>
+  async (dispatch) => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:8088/tasks/getassignedtasks",
+        { email }
+      );
+      console.log(data);
+      dispatch({
+        type: GET_ASSIGNED_TASKSUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_ASSIGNED_TASKSFAIL,
+        payload: error.message,
+      });
+    }
+  };

@@ -3,7 +3,7 @@ import moment from "moment";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTask, getTasks } from "../redux/actions/tasks";
+import { deleteProjectTask, getTasks } from "../redux/actions/tasks";
 import { useHistory } from "react-router-dom";
 
 function Tasks(id) {
@@ -13,12 +13,10 @@ function Tasks(id) {
 
   const { projectTasks } = useSelector((state) => state.task);
   const { users } = useSelector((state) => state.auth);
-  console.log(users);
   const [email, setEmail] = useState("");
 
   const handleDelete = async (taskId) => {
-    await dispatch(deleteTask(taskId));
-    console.log(projectid);
+    await dispatch(deleteProjectTask(taskId));
     await dispatch(getTasks(projectid));
   };
   const handleAdd = (projectid) => {

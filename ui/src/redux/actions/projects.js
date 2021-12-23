@@ -1,5 +1,6 @@
 import {
   DELETE_PROJECT_FAIL,
+  DELETE_PROJECT_SUCCESS,
   GET_PROJECTS_FAIL,
   GET_PROJECTS_SUCCESS,
   MARK_AS_COMPLETE_FAIL,
@@ -25,11 +26,12 @@ export const registerProject =
       console.log(data);
       dispatch({
         type: REGISTERPROJECT_SUCCESS,
-        payload: data,
+        payload: data.message,
       });
     } catch (error) {
       dispatch({
         type: REGISTERPROJECT_FAIL,
+        payload: error.message,
       });
     }
   };
@@ -69,18 +71,19 @@ export const deleteProject =
           projectid,
         }
       );
-      {
-        data.message
-          ? dispatch(getProjects())
-          : dispatch({
-              type: DELETE_PROJECT_FAIL,
-              payload: data,
-            });
+      if (data.message) {
+        dispatch(getProjects());
+      } else {
+        dispatch({
+          type: DELETE_PROJECT_FAIL,
+          payload: "failed",
+        });
       }
+      // console.log(data);
     } catch (error) {
       dispatch({
         type: DELETE_PROJECT_FAIL,
-        payload: error,
+        payload: error.message,
       });
     }
   };

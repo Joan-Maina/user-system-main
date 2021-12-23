@@ -60,7 +60,7 @@ const updateProject = async (req, res) => {
     let { projectId } = req.body;
 
     await connection.execute("updateproject"), { projectId };
-    res.status(201).send({ message: "project successfully updated" });
+    res.status(201).send("project successfully updated");
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -69,7 +69,7 @@ const assignProject = async (req, res) => {
   try {
     let { email, projectId } = req.body;
     await connection.execute("assignproject", { email, projectId });
-    res.status(201).send({ message: "project successfully assigned" });
+    res.status(201).send("project successfully assigned");
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -79,7 +79,7 @@ const deleteProject = async (req, res) => {
     let { projectid } = req.body;
     console.log(projectid);
     await connection.execute("deleteproject", { projectid });
-    res.status(201).send({ message: "project successfully deleted" });
+    res.status(201).send("project successfully deleted");
   } catch (error) {
     res.status(400).send(error.message);
   }

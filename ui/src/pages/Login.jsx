@@ -7,7 +7,8 @@ import { login } from "../redux/actions/auth";
 
 function Login() {
   const { user, error } = useSelector((state) => state.auth);
-
+  const token = JSON.parse(localStorage.getItem("user"));
+  console.log(token);
   const dispatch = useDispatch();
   const history = useHistory();
   const [data, setData] = useState({

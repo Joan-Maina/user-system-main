@@ -12,12 +12,15 @@ import {
   ASSIGN_TASK_FAIL,
   MARK_TASK_COMPLETE_SUCCESS,
   MARK_TASK_COMPLETE_FAIL,
+  GET_ASSIGNED_TASKSFAIL,
+  GET_ASSIGNED_TASKSUCCESS,
 } from "../types";
 const initialState = {
   loading: false,
   error: "",
   tasks: [],
   projectTasks: [],
+  assignedtasks: [],
   message: "",
 };
 
@@ -28,12 +31,14 @@ const taskReducer = (state = initialState, { type, payload }) => {
         ...state,
         loading: true,
         error: "",
+        message: "",
       };
     case REGISTERTASK_FAIL:
       return {
         ...state,
         loading: false,
         error: payload,
+        message: "",
       };
     case REGISTERTASK_SUCCESS:
       return {
@@ -49,54 +54,89 @@ const taskReducer = (state = initialState, { type, payload }) => {
         loading: false,
         error: "",
         tasks: payload,
+        message: "",
       };
     case GET_TASKS_FAIL:
       return {
         ...state,
+        loading: false,
         error: payload,
+        message: "",
       };
     case GET_PROJECT_TASKS_SUCCESS:
       return {
         ...state,
         error: "",
         loading: false,
+        message: "",
+
         projectTasks: payload,
       };
     case GET_PROJECT_TASKS_FAIL:
       return {
         ...state,
         projectTasks: [],
+        message: "",
+        loading: false,
         error: payload,
       };
     case DELETE_TASK_SUCCESS:
       return {
         ...state,
+        message: "",
+        loading: false,
+
         error: "",
       };
     case DELETE_TASK_FAIL:
       return {
         ...state,
         error: payload,
+        message: "",
+        loading: false,
       };
     case ASSIGN_TASK_SUCCESS:
       return {
         ...state,
         error: "",
+        message: "",
+        loading: false,
       };
     case ASSIGN_TASK_FAIL:
       return {
         ...state,
         error: payload,
+        message: "",
+        loading: false,
       };
     case MARK_TASK_COMPLETE_SUCCESS:
       return {
         ...state,
         error: "",
+        message: "",
+        loading: false,
       };
     case MARK_TASK_COMPLETE_FAIL:
       return {
         ...state,
         error: payload,
+        message: "",
+        loading: false,
+      };
+    case GET_ASSIGNED_TASKSFAIL:
+      return {
+        ...state,
+        error: payload,
+        message: "",
+        loading: false,
+      };
+    case GET_ASSIGNED_TASKSUCCESS:
+      return {
+        ...state,
+        message: "",
+        error: "",
+        loading: false,
+        assignedtasks: payload,
       };
     default:
       return state;
