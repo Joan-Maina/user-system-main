@@ -5,7 +5,7 @@ CREATE OR ALTER PROCEDURE [dbo].[gettasksinproject]
 AS
 BEGIN
     SET NOCOUNT ON;
-   SELECT taskId, taskTitle, taskStartDate, taskEnddate,isCompleted
+   SELECT taskId, taskTitle, taskStartDate, taskEnddate,isCompleted , isAssigned
    FROM [dbo].[taskDetails] 
    WHERE
    taskDetails.projectId = @id

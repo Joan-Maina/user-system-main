@@ -1,15 +1,18 @@
 import {
-  GET_USER_SUCCESS,
-  GET_USER_FAIL,
+  ADD_USER_SUCCESS,
+  ADD_USER_FAIL,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
   GET_USERS_FAIL,
   GET_USERS_SUCCESS,
+  UPDATEPASSWORDFAIL,
+  UPDATEPASSWORDSUCCESS,
+  GET_UNASSIGNED_USERSUCCESS,
+  GET_UNASSIGNED_USERSFAIL,
 } from "../types";
 
 const user = JSON.parse(localStorage.getItem("user"));
-console.log(user);
 const initialState = {
   user: {},
   users: [],
@@ -19,13 +22,13 @@ const initialState = {
 
 const authReducer = (state = initialState, { type, payload, message }) => {
   switch (type) {
-    case GET_USER_SUCCESS:
+    case ADD_USER_SUCCESS:
       return {
         ...state,
         error: "",
-        message: message,
+        message: payload,
       };
-    case GET_USER_FAIL:
+    case ADD_USER_FAIL:
       return {
         ...state,
         error: payload,
@@ -34,30 +37,66 @@ const authReducer = (state = initialState, { type, payload, message }) => {
     case GET_USERS_SUCCESS:
       return {
         ...state,
+        message: "successfully got users",
+        error: "",
         users: [...payload],
       };
     case GET_USERS_FAIL:
       return {
         ...state,
+        message: "",
         error: payload,
       };
     case LOGIN_FAIL:
       return {
         ...state,
         error: payload,
-        user: {},
+        message: "",
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
+        message: "",
+        error: "",
         user: payload,
       };
     case LOGOUT:
       return {
         ...state,
         user: {},
+        message: "",
+        error: "",
       };
+    case UPDATEPASSWORDFAIL:
+      console.log(payload);
 
+      return {
+        ...state,
+        message: "",
+        error: payload,
+        user: {},
+      };
+    case UPDATEPASSWORDSUCCESS:
+      return {
+        ...state,
+        message: payload,
+        error: "",
+        user: {},
+      };
+    case GET_UNASSIGNED_USERSUCCESS:
+      return {
+        ...state,
+        message: "",
+        error: "",
+        users: payload,
+      };
+    case GET_UNASSIGNED_USERSFAIL:
+      return {
+        ...state,
+        message: "",
+        users: [],
+        error: payload,
+      };
     default:
       return state;
   }

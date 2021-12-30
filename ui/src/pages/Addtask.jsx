@@ -9,10 +9,10 @@ import Navbar from "../components/Navbar";
 import "../styles/Add.css";
 
 function Tasks(id) {
+  console.log(id);
   const projectid = id.location.state;
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.task);
-  console.log(loading);
+  const { error, message, loading } = useSelector((state) => state.task);
   const history = useHistory();
   const [data, setData] = useState({
     projectId: projectid,
@@ -23,8 +23,7 @@ function Tasks(id) {
 
   const handleChange = (e) => {
     const taskDetails = { ...data };
-    console.log(data);
-    console.log(taskDetails);
+
     taskDetails[e.target.id] = e.target.value;
 
     setData(taskDetails);
@@ -33,7 +32,6 @@ function Tasks(id) {
     e.preventDefault();
     console.log(data);
     dispatch(registerTask(data));
-    history.goBack();
   };
   const style = {
     backgroundColor: "black",
@@ -51,6 +49,8 @@ function Tasks(id) {
 
       <div className="add">
         <p>Add task</p>
+        {error && <h4 style={{ color: "red" }}>{error}</h4>}
+        {message && <h4 style={{ color: "green" }}>{message}</h4>}
         <form onSubmit={(e) => submit(e)} className="form">
           <label>Task title:</label>
           <input
@@ -81,6 +81,7 @@ function Tasks(id) {
           />
           <Button text="Create task" style={style} />
         </form>
+        {/* {message ? history.goBack() : <p>joan</p>} */}
       </div>
     </>
   );

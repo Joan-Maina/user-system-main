@@ -27,8 +27,7 @@ function Tasks() {
     email: "",
     taskId: "",
   });
-  // const [task, setTask] = useState();
-
+  console.log(tasks);
   useEffect(() => {
     dispatch(getalltasks());
     dispatch(getassignedtasks(user));
@@ -41,15 +40,7 @@ function Tasks() {
     dispatch(deleteTask(taskId));
     window.location.reload();
   };
-  const handleChange = (e, taskId) => {
-    e.preventDefault();
-    data[e.target.id] = e.target.value;
-    data["taskId"] = taskId;
-    setData(data);
-    dispatch(assigntask(data));
-    dispatch(getalltasks());
-    window.location.reload();
-  };
+
   const handleComplete = (taskid) => {
     dispatch(marktaskcomplete(taskid));
     window.location.reload();
@@ -84,7 +75,7 @@ function Tasks() {
                     key={task.taskId}
                     style={
                       task.isCompleted
-                        ? { backgroundColor: "sky blue" }
+                        ? { backgroundColor: "#ADD8E6" }
                         : { backgroundColor: "white" }
                     }
                   >
@@ -113,22 +104,7 @@ function Tasks() {
                         onClick={() => handleDelete({ taskId: task.taskId })}
                       ></i>
                     </td>
-                    <td>
-                      {task.isAssigned ? (
-                        "Assigned"
-                      ) : (
-                        <select
-                          value={data.email}
-                          id="email"
-                          onChange={(e) => handleChange(e, task.taskId)}
-                        >
-                          {" "}
-                          {users.map((user) => (
-                            <option name={user.email}>{user.email}</option>
-                          ))}
-                        </select>
-                      )}
-                    </td>
+                    <td>{task.isAssigned ? "Assigned" : "Not assigned"}</td>
                   </tr>
                 ))
               ) : (

@@ -9,24 +9,35 @@ const encrypt = require('../helpers/encrypt')
 
 const deleteuser = async (req, res) => {
   let { email } = req.body;
-  // let { recordset } = await connection.execute("getuser", { email });
-
-  // let user = recordset[0];
+  
   console.log(email);
   await connection.execute("deleteuser", { email });
   res.status(201).send("user successfully deleted");
 };
 
 const getusers = async (req, res) => {
-    let { recordset } = await connection.execute("getallusers");
-    // console.log(recordset);
-    res.send(recordset);
+  try {
+     let { recordset } = await connection.execute("getallusers");
+    res.status(201).send(recordset);
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+   
   };
+  const getunassignedusers = async(req,res) => {
+    try {
+      let {recordset } = await connection.execute("getunassignedusers");
+      res.status(201).send(recordset);
+      console.log(recordset)
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  }
 
   const getassignedusers = async (req, res) => {
     try {
      let ({recordset}) = await connection.execute("getassignedusers");
-      res.send(recordset)
+      res.status(201).send(recordset)
     } catch (error) {
       res.status(400).send(error.message)
     }
@@ -39,7 +50,6 @@ const getusers = async (req, res) => {
   
       let user = recordset[0];
       if (!user)
-        // if (recordset.length !== 1)
         return res.send({ message: "Account does not exist" });
   
       let auth = await bcrypt.compare(password, user.password);
@@ -90,24 +100,32 @@ const getusers = async (req, res) => {
       });
       res.status(201).send({ message: "Successfully registered" });
     } catch (error) {
-      console.log(error.message);
       res.status(500).send("Error");
     }
   };
   
   const updatepassword  = async (req, res) => {
     try {
-      let { firstname, lastname, email, password } = req.body;
+      let { firstname, lastname, email, password, confirmpassword } = req.body;
+      const { error } = await validate({
+        firstname,
+        lastname,
+        email,
+        password,
+        confirmpassword,
+      });
+
+      if (error) return res.status(401).send(error.message);
   
       let { recordset } = await connection.execute("getuser", { email });
       let user = recordset[0];
       let auth = await bcrypt.compare(password, user.password);
       if (firstname !== user.firstname || lastname !== user.lastname)
-        return res.status(400).send("Wrong inputs");
+        return res.status(400).send("Wrong inputs"); 
+
       if (auth) return res.status(400).send("Choose a different password");
   
-      let pass = await encryptPassword(password);
-  
+      let pass = await encrypt(password);
       await connection.execute("updatepassword", {
         email: email,
         password: pass,
@@ -124,5 +142,6 @@ const getusers = async (req, res) => {
       updatepassword,
       signup,
       login,
-      deleteuser
+      deleteuser,
+      getunassignedusers
   }

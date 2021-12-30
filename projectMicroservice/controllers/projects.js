@@ -57,20 +57,31 @@ const getProject = async (req, res) => {
 };
 const updateProject = async (req, res) => {
   try {
-    let { projectId } = req.body;
-
-    await connection.execute("updateproject"), { projectId };
+    let { projectid } = req.body;
+    console.log(projectid);
+    await connection.execute("updateproject", { projectid });
     res.status(201).send("project successfully updated");
   } catch (error) {
+    console.log(error);
     res.status(400).send(error.message);
   }
 };
 const assignProject = async (req, res) => {
   try {
-    let { email, projectId } = req.body;
-    await connection.execute("assignproject", { email, projectId });
+    let { projectid, userone, usertwo, userthree, userfour, userfive } =
+      req.body;
+    console.log(projectid);
+    await connection.execute("assignproject", {
+      projectid,
+      userone,
+      usertwo,
+      userthree,
+      userfour,
+      userfive,
+    });
     res.status(201).send("project successfully assigned");
   } catch (error) {
+    console.log(error.message);
     res.status(400).send(error.message);
   }
 };
@@ -85,6 +96,17 @@ const deleteProject = async (req, res) => {
   }
 };
 
+const getcompleteprojects = async (req, res) => {
+  try {
+    let { recordset } = await connection.execute("getcompletedprojects");
+    console.log(recordset);
+    res.status(200).send(recordset);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   registerProject,
   updateProject,
@@ -93,4 +115,5 @@ module.exports = {
   deleteProject,
   getProject,
   getallprojects,
+  getcompleteprojects,
 };

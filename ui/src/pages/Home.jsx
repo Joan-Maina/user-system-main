@@ -13,6 +13,7 @@ function Home() {
   const handleLogout = () => {
     dispatch(logout());
     history.push("/");
+    window.location.reload();
   };
   return (
     <>
@@ -48,6 +49,21 @@ function Home() {
         </>
       ) : (
         <div className="main" id="main">
+          <div class="custom-shape-divider-top-1640674066">
+            <svg
+              data-name="Layer 1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1200 120"
+              preserveAspectRatio="none"
+            >
+              <rect x="1200" height="3.6"></rect>
+              <rect height="3.6"></rect>
+              <path
+                d="M0,0V3.6H580.08c11,0,19.92,5.09,19.92,13.2,0-8.14,8.88-13.2,19.92-13.2H1200V0Z"
+                class="shape-fill"
+              ></path>
+            </svg>
+          </div>
           <div className="image">
             <img
               src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"

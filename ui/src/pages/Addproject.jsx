@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../components/Button";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { registerProject } from "../redux/actions/projects";
 import { useHistory } from "react-router-dom";
@@ -11,6 +11,7 @@ import "../styles/Add.css";
 function Addproject() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { error, message } = useSelector((state) => state.project);
   const [data, setData] = useState({
     projectTitle: "",
     projectClient: "",
@@ -29,8 +30,8 @@ function Addproject() {
     console.log(data);
     e.preventDefault();
     dispatch(registerProject(data));
-    history.push("/project");
-    window.location.reload();
+    // history.push("/project");
+    // window.location.reload();
   };
 
   const style = {
@@ -48,6 +49,12 @@ function Addproject() {
       <Navbar />
       <div className="add">
         <p>Add project</p>
+        {error && (
+          <h3 style={{ color: "red", fontWeight: "lighter" }}>{error}</h3>
+        )}
+        {message && (
+          <h4 style={{ color: "green", fontWeight: "lighter" }}>{message}</h4>
+        )}
         <form onSubmit={(e) => submit(e)} className="form">
           <label>Project title:</label>
           <input

@@ -1,4 +1,6 @@
 import {
+  ASSIGN_PROJECT_FAIL,
+  ASSIGN_PROJECT_SUCCESS,
   DELETE_PROJECT_FAIL,
   DELETE_PROJECT_SUCCESS,
   GET_PROJECTS_FAIL,
@@ -57,13 +59,14 @@ export const getProjects = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_PROJECTS_FAIL,
-      payload: error,
+      payload: error.message,
     });
   }
 };
 export const deleteProject =
   ({ projectid }) =>
   async (dispatch) => {
+    console.log(projectid);
     try {
       const { data } = await axios.post(
         "http://localhost:8088/projects/deleteproject",
@@ -71,15 +74,11 @@ export const deleteProject =
           projectid,
         }
       );
-      if (data.message) {
-        dispatch(getProjects());
-      } else {
-        dispatch({
-          type: DELETE_PROJECT_FAIL,
-          payload: "failed",
-        });
-      }
-      // console.log(data);
+
+      dispatch({
+        type: DELETE_PROJECT_SUCCESS,
+        payload: projectid,
+      });
     } catch (error) {
       dispatch({
         type: DELETE_PROJECT_FAIL,
@@ -87,24 +86,49 @@ export const deleteProject =
       });
     }
   };
-export const markascomplete =
-  ({ projectid }) =>
+export const markascomplete = (projectid) => async (dispatch) => {
+  console.log(projectid);
+  try {
+    const { data } = await axios.post(
+      "http://localhost:8088/projects/updateproject",
+      { projectid }
+    );
+    console.log(data);
+    dispatch({ type: MARK_AS_COMPLETE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: MARK_AS_COMPLETE_FAIL,
+      payload: error,
+    });
+  }
+};
+
+export const assignproject =
+  ({ projectid, userone, usertwo, userthree, userfour, userfive }) =>
   async (dispatch) => {
     try {
+      console.log(projectid);
       const { data } = await axios.post(
-        "http://localhost:8088/projects/updateproject",
-        { projectid }
+        "http://localhost:8088/projects/assignproject",
+        { projectid, userone, usertwo, userthree, userfour, userfive }
       );
-      console.log(data);
-      {
-        data.message
-          ? dispatch({ type: MARK_AS_COMPLETE_SUCCESS })
-          : dispatch({ type: MARK_AS_COMPLETE_FAIL, payload: data });
-      }
-    } catch (error) {
       dispatch({
-        type: MARK_AS_COMPLETE_FAIL,
-        payload: error,
+        type: ASSIGN_PROJECT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error.message);
+      dispatch({
+        type: ASSIGN_PROJECT_FAIL,
+        payload: error.message,
       });
     }
   };
+export const getcompleteprojects = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get(
+      "http://localhost:8088/projects/completedprojects"
+    );
+    console.log(data);
+  } catch (error) {}
+};

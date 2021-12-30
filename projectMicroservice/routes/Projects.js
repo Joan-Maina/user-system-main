@@ -6,7 +6,9 @@ const {
   registerProject,
   updateProject,
   deleteProject,
+  assignProject,
   getallprojects,
+  getcompleteprojects,
 } = require("../controllers/projects");
 const auth = require("../middlewares/tokenvalidate");
 
@@ -16,5 +18,6 @@ router.post("/getproject", getProject);
 router.post("/registerproject", registerProject);
 router.post("/updateproject", updateProject);
 router.get("/getallprojects", auth, getallprojects);
-
+router.post("/assignproject", assignProject);
+router.get("/completedprojects", getcompleteprojects);
 module.exports = router;

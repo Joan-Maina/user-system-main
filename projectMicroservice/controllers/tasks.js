@@ -4,12 +4,14 @@ const connection = require("../dbconfig");
 const registerTask = async (req, res) => {
   try {
     let { taskTitle, projectId, taskStartdate, taskEnddate } = req.body;
+    // console.log(taskTitle, projectId);
     await connection.execute("registertask", {
       taskTitle,
       projectId,
       taskStartdate,
       taskEnddate,
     });
+    console.log("joan");
     res.status(201).send({ message: "task successfully registered" });
   } catch (error) {
     res.status(400).send(error.message);
@@ -82,10 +84,18 @@ const getalltasks = async (req, res) => {
     res.status(400).status(400).send(error.message);
   }
 };
-
+const getallassignedtasks = async (req, res) => {
+  try {
+    let { recordset } = await connection.execute("getallassignedtasks");
+    console.log(recordset);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
 module.exports = {
   registerTask,
   updateTask,
+  getallassignedtasks,
   assignTask,
   getTasks,
   deleteTask,

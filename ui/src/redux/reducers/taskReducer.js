@@ -81,11 +81,12 @@ const taskReducer = (state = initialState, { type, payload }) => {
         error: payload,
       };
     case DELETE_TASK_SUCCESS:
+      const newstate = state.tasks.filter((task) => task.taskId !== payload);
       return {
         ...state,
         message: "",
         loading: false,
-
+        tasks: newstate,
         error: "",
       };
     case DELETE_TASK_FAIL:

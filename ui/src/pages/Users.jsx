@@ -6,19 +6,25 @@ import { useDispatch, useSelector } from "react-redux";
 
 function Users() {
   const dispatch = useDispatch();
+
   const { user } = JSON.parse(localStorage.getItem("user"));
-  const { users } = useSelector((state) => state.auth);
+  const { users, message, error } = useSelector((state) => state.auth);
+  console.log(users);
   const handleDelete = ({ user }) => {
     console.log(user);
     dispatch(deleteUser(user));
     window.location.reload();
   };
+  console.log(users);
   useEffect(() => {
+    console.log("jo");
     dispatch(getallusers());
+    console.log(users);
   }, [dispatch]);
   return (
     <div>
       <Navbar />
+
       {user.isAdmin ? (
         <>
           <table class="table">
@@ -53,6 +59,7 @@ function Users() {
               )}
             </tbody>
           </table>
+          {error && <h4 style={{ color: "red" }}>{error}</h4>}
         </>
       ) : (
         <>

@@ -34,6 +34,7 @@ export const registerTask =
           taskEnddate,
         }
       );
+      console.log(data);
       dispatch({
         type: REGISTERTASK_SUCCESS,
         payload: data.message,
@@ -52,18 +53,11 @@ export const getTasks = (id) => async (dispatch) => {
       "http://localhost:8088/tasks/getprojecttasks",
       id
     );
-    console.log(data);
-    if (data.message) {
-      dispatch({
-        type: GET_PROJECT_TASKS_FAIL,
-        payload: data.message,
-      });
-    } else {
-      dispatch({
-        type: GET_PROJECT_TASKS_SUCCESS,
-        payload: data,
-      });
-    }
+
+    dispatch({
+      type: GET_PROJECT_TASKS_SUCCESS,
+      payload: data,
+    });
   } catch (error) {
     dispatch({
       type: GET_PROJECT_TASKS_FAIL,
@@ -95,14 +89,10 @@ export const deleteTask = (taskId) => async (dispatch) => {
       taskId
     );
     console.log(data);
-    if (data.message) {
-      dispatch(getalltasks());
-    } else {
-      dispatch({
-        type: DELETE_TASK_FAIL,
-        payload: data,
-      });
-    }
+    dispatch({
+      type: DELETE_TASK_SUCCESS,
+      payload: taskId,
+    });
   } catch (error) {
     dispatch({
       type: DELETE_TASK_FAIL,
@@ -140,6 +130,7 @@ export const deleteProjectTask = (taskId) => async (dispatch) => {
 export const assigntask =
   ({ email, taskId }) =>
   async (dispatch) => {
+    console.log(email, taskId);
     try {
       const { data } = await axios.post(
         "http://localhost:8088/tasks/assigntask",

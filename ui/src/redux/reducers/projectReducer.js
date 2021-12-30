@@ -1,4 +1,6 @@
 import {
+  ASSIGN_PROJECT_FAIL,
+  ASSIGN_PROJECT_SUCCESS,
   DELETE_PROJECT_FAIL,
   DELETE_PROJECT_SUCCESS,
   GET_PROJECTS_FAIL,
@@ -49,8 +51,13 @@ const projectReducer = (state = initialState, { type, payload }) => {
         error: payload,
       };
     case DELETE_PROJECT_SUCCESS:
+      const newstate = state.projects.filter(
+        (project) => project.projectId !== payload
+      );
       return {
         ...state,
+        projects: newstate,
+
         message: payload,
         error: "",
       };
@@ -67,6 +74,18 @@ const projectReducer = (state = initialState, { type, payload }) => {
         error: "",
       };
     case MARK_AS_COMPLETE_FAIL:
+      return {
+        ...state,
+        error: payload,
+        message: "",
+      };
+    case ASSIGN_PROJECT_SUCCESS:
+      return {
+        ...state,
+        error: "",
+        message: payload,
+      };
+    case ASSIGN_PROJECT_FAIL:
       return {
         ...state,
         error: payload,

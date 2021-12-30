@@ -73,6 +73,9 @@ function Login() {
               <Link to="signup">
                 <p>Don't have an account? </p>
               </Link>
+              <Link to="password">
+                <p>Forgot password? </p>
+              </Link>
             </form>
             {Object.values(user).length ? (
               history.push("/dashboard")
