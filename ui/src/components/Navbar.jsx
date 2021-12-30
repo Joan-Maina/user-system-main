@@ -1,25 +1,34 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "../redux/actions/auth";
 import "../styles/Navbar.css";
-import { NavLink } from "react-router-dom";
-import Button from "./Button";
+import { NavLink, useHistory } from "react-router-dom";
 
 function Navbar() {
   const userdata = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const loggingOut = (e) => {
-    e.preventDefault();
+  const handleLogout = () => {
+    // e.preventDefault();
     console.log("log out");
     dispatch(logout());
+    history.push("/");
+  };
+
+  const style = {
+    backgroundColor: "black",
+    color: "white",
+    padding: "10px",
+    width: "100px",
+    border: "none",
+    borderRadius: "5px",
   };
 
   return (
     <>
       <div className="nav">
-        <NavLink exact activeClassName="active" to={"/"}>
-          {" "}
+        <NavLink exact activeClassName="active" to={"/dashboard"}>
           <i className="fa fa-home fa-2x" aria-hidden="true"></i>
         </NavLink>
 
@@ -33,11 +42,13 @@ function Navbar() {
           <h5>Users</h5>
         </NavLink>
         {userdata === null || undefined ? (
-          <NavLink to="login">
-            <button>Log in</button>
+          <NavLink to="">
+            <button style={style}>Log in</button>
           </NavLink>
         ) : (
-          <Button text={"Log out"} onClick={() => dispatch(logout())} />
+          <button style={style} onClick={() => handleLogout()}>
+            log out
+          </button>
         )}
       </div>
     </>

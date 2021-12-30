@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "africastalking": "^0.5.4",
+    "react-tooltip": "^4.2.21"
+  }
+}

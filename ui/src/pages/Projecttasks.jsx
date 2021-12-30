@@ -1,25 +1,59 @@
 import React from "react";
-import Button from "../components/Button";
 import moment from "moment";
 import Navbar from "../components/Navbar";
-import { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getalltasks, deleteTask, getTasks } from "../redux/actions/tasks";
-import { Link } from "react-router-dom";
+import {
+  deleteProjectTask,
+  getTasks,
+  marktaskcomplete,
+  assigntask,
+} from "../redux/actions/tasks";
+import { useHistory } from "react-router-dom";
 
 function Tasks(id) {
   const projectid = id.location.state.id;
   const dispatch = useDispatch();
-  const { tasks } = useSelector((state) => state.task);
-  // useEffect(() => {
-  //   dispatch(getTasks({ id: projectid }));
-  // }, [dispatch]);
-  console.log(tasks);
-  const handleDelete = (taskId) => {
-    console.log("jo");
-    dispatch(deleteTask(taskId));
+  const history = useHistory();
+  const { projectTasks } = useSelector((state) => state.task);
+  const { projects } = useSelector((state) => state.project);
+  const [data, setData] = useState({
+    taskId: "",
+    email: "",
+  });
+
+  const handleDelete = async (taskId) => {
+    await dispatch(deleteProjectTask(taskId));
+    await dispatch(getTasks(projectid));
+  };
+  const project = projects.filter((project) => project.projectId === projectid);
+  console.log(project[0].userone);
+  const handleAddTask = (projectid) => {
+    history.push("/addtask", projectid);
   };
 
+  const style = {
+    backgroundColor: "black",
+    color: "white",
+    padding: "10px",
+    width: "fit-content",
+    marginTop: "10px",
+    marginLeft: "50px",
+    marginBottom: "20px",
+    border: "none",
+    borderRadius: "5px",
+  };
+
+  const handleChange = (e, taskId) => {
+    e.preventDefault();
+    data[e.target.id] = e.target.value;
+
+    data["taskId"] = taskId;
+
+    setData(data);
+    dispatch(assigntask(data));
+  };
+  console.log(projectTasks);
   return (
     <>
       <Navbar />
@@ -36,11 +70,15 @@ function Tasks(id) {
           </tr>
         </thead>
         <tbody>
-          {tasks.length > 0 ? (
-            tasks.map((task) => (
+          {projectTasks.length > 0 ? (
+            projectTasks.map((task) => (
               <tr
                 key={task.taskId}
-                // onClick={() => handleAssign({ id: task.taskId })}
+                style={
+                  task.isCompleted
+                    ? { backgroundColor: "#ADD8E6" }
+                    : { backgroundColor: "white" }
+                }
               >
                 <th scope="row">{task.taskId}</th>
                 <td>{task.taskTitle}</td>
@@ -53,33 +91,33 @@ function Tasks(id) {
                     onClick={() => handleDelete({ taskId: task.taskId })}
                   ></i>
                 </td>
-                <div class="dropdown" style={{ width: "10px" }}>
-                  <button
-                    class="btn btn-secondary dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    style={{ width: "10px" }}
-                  >
-                    Dropdown button
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton"
-                  >
-                    <a class="dropdown-item" href="#">
-                      Action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </div>
-                </div>
+                <td style={{ color: "red" }}>
+                  {task.isAssigned ? (
+                    "Assigned"
+                  ) : (
+                    <select
+                      id="email"
+                      value={data}
+                      onChange={(e) => handleChange(e, task.taskId)}
+                    >
+                      <option value={project[0].userone}>
+                        {project[0].userone}
+                      </option>
+                      <option value={project[0].usertwo}>
+                        {project[0].usertwo}
+                      </option>
+                      <option value={project[0].userthree}>
+                        {project[0].userthree}
+                      </option>
+                      <option value={project[0].userfour}>
+                        {project[0].userfour}
+                      </option>
+                      <option value={project[0].userfive}>
+                        {project[0].userfive}
+                      </option>
+                    </select>
+                  )}
+                </td>
               </tr>
             ))
           ) : (
@@ -87,9 +125,9 @@ function Tasks(id) {
           )}
         </tbody>
       </table>
-      <Link to={"/addtask"}>
-        <Button text={"Add task"} />
-      </Link>
+      <button onClick={() => handleAddTask(projectid)} style={style}>
+        Add task
+      </button>
     </>
   );
 }

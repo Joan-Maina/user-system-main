@@ -1,6 +1,6 @@
 CREATE OR ALTER PROCEDURE [dbo].[updatetask]
 (
-    @taskid varchar(255)
+    @taskid INT
 )
 AS
 BEGIN

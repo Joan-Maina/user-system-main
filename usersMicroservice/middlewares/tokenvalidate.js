@@ -2,9 +2,7 @@ const { verify } = require("jsonwebtoken");
 require("dotenv").config();
 
 module.exports = (req, res, next) => {
-  console.log("joan");
   let token = req.headers.authorization.split(" ")[1];
-  console.log(token);
 
   if (token) {
     token = token.slice(7);

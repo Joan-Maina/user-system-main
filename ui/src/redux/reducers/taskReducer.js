@@ -8,8 +8,21 @@ import {
   GET_PROJECT_TASKS_FAIL,
   GET_PROJECT_TASKS_SUCCESS,
   DELETE_TASK_SUCCESS,
+  ASSIGN_TASK_SUCCESS,
+  ASSIGN_TASK_FAIL,
+  MARK_TASK_COMPLETE_SUCCESS,
+  MARK_TASK_COMPLETE_FAIL,
+  GET_ASSIGNED_TASKSFAIL,
+  GET_ASSIGNED_TASKSUCCESS,
 } from "../types";
-const initialState = { loading: false, error: null, tasks: [] };
+const initialState = {
+  loading: false,
+  error: "",
+  tasks: [],
+  projectTasks: [],
+  assignedtasks: [],
+  message: "",
+};
 
 const taskReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -17,53 +30,114 @@ const taskReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         loading: true,
-        error: null,
+        error: "",
+        message: "",
       };
     case REGISTERTASK_FAIL:
       return {
         ...state,
         loading: false,
         error: payload,
+        message: "",
       };
     case REGISTERTASK_SUCCESS:
       return {
         ...state,
-        loading: true,
-        error: null,
+        loading: false,
+        error: "",
+        message: payload,
       };
     case GET_TASKS_SUCCESS:
       console.log(payload);
       return {
         ...state,
         loading: false,
+        error: "",
         tasks: payload,
+        message: "",
       };
     case GET_TASKS_FAIL:
       return {
         ...state,
+        loading: false,
         error: payload,
+        message: "",
       };
     case GET_PROJECT_TASKS_SUCCESS:
-      console.log(payload);
       return {
         ...state,
+        error: "",
         loading: false,
-        tasks: payload,
+        message: "",
+
+        projectTasks: payload,
       };
     case GET_PROJECT_TASKS_FAIL:
       return {
         ...state,
+        projectTasks: [],
+        message: "",
+        loading: false,
         error: payload,
       };
     case DELETE_TASK_SUCCESS:
+      const newstate = state.tasks.filter((task) => task.taskId !== payload);
       return {
         ...state,
-        // tasks: tasks.filter((task) => task.taskId !== payload),
+        message: "",
+        loading: false,
+        tasks: newstate,
+        error: "",
       };
     case DELETE_TASK_FAIL:
       return {
         ...state,
         error: payload,
+        message: "",
+        loading: false,
+      };
+    case ASSIGN_TASK_SUCCESS:
+      return {
+        ...state,
+        error: "",
+        message: "",
+        loading: false,
+      };
+    case ASSIGN_TASK_FAIL:
+      return {
+        ...state,
+        error: payload,
+        message: "",
+        loading: false,
+      };
+    case MARK_TASK_COMPLETE_SUCCESS:
+      return {
+        ...state,
+        error: "",
+        message: "",
+        loading: false,
+      };
+    case MARK_TASK_COMPLETE_FAIL:
+      return {
+        ...state,
+        error: payload,
+        message: "",
+        loading: false,
+      };
+    case GET_ASSIGNED_TASKSFAIL:
+      return {
+        ...state,
+        error: payload,
+        message: "",
+        loading: false,
+      };
+    case GET_ASSIGNED_TASKSUCCESS:
+      return {
+        ...state,
+        message: "",
+        error: "",
+        loading: false,
+        assignedtasks: payload,
       };
     default:
       return state;

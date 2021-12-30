@@ -8,6 +8,8 @@ const {
   getTasks,
   deleteTask,
   getalltasks,
+  getassignedtasks,
+  getallassignedtasks,
 } = require("../controllers/tasks");
 
 router.post("/getprojecttasks", getTasks);
@@ -16,5 +18,7 @@ router.post("/assigntask", assignTask);
 router.post("/deletetask", deleteTask);
 router.post("/updatetask", updateTask);
 router.get("/getalltasks", getalltasks);
+router.post("/getassignedtasks", getassignedtasks);
+router.post("/getallassignedtasks", getallassignedtasks);
 
 module.exports = router;

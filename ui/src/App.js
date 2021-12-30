@@ -16,41 +16,43 @@ import Tasks from "./pages/Tasks";
 import Addtask from "./pages/Addtask";
 import Projecttasks from "./pages/Projecttasks";
 import Users from "./pages/Users";
+import Forgotpassword from "./pages/Forgotpassword";
+import Addmembers from "./pages/Addmembers";
+import Complete from "./pages/Complete";
 function App() {
-  const state = useSelector((state) => state);
-  console.log(state);
-  // const { user } = useSelector((state) => state.auth);
   return (
     <Router>
       <div className="App">
         <Switch className="App">
-          <Route className="path" exact path="/" component={Home} />
+          <Route className="path" exact path="/" component={Login} />
           <Route
             className="path"
             exact
-            path="/addproject"
-            component={Addproject}
+            path="/addmembers"
+            component={Addmembers}
+          />
+          <Route className="path" exact path="/dashboard" component={Home} />
+          <Route className="path" exact path="/signup" component={Signup} />
+          <Route
+            className="path"
+            exact
+            path="/completed"
+            component={Complete}
           />
 
-          {/* <PrivateRoute
+          <Route
             className="path"
             exact
-            path="/addproject"
-            component={Addproject}
-          /> */}
-          {/* <Route className="path" exact path="/home" component={Home} />
-          <Route className="path" exact path="/login" component={Login} />
+            path="/password"
+            component={Forgotpassword}
+          />
+
           <Route
             className="path"
             exact
             path="/addproject"
             component={Addproject}
           />
-          {Object.values(user).length && (
-            <Route className="path" exact path="/project" component={Project} />
-          )}
-          <Route className="path" exact path="/signup" component={Signup} /> */}
-          <Route className="path" exact path="/login" component={Login} />
 
           <Route className="path" exact path="/tasks" component={Tasks} />
           <Route className="path" exact path="/addtask" component={Addtask} />
@@ -60,8 +62,9 @@ function App() {
             path="/projecttasks"
             component={Projecttasks}
           />
-          <Route className="path" exact path="/user" component={Users} />
           <Route className="path" exact path="/project" component={Project} />
+          {/* )} */}
+          <Route className="path" exact path="/user" component={Users} />
         </Switch>
       </div>
     </Router>

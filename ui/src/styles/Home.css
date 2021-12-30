@@ -1,0 +1,85 @@
+.main {
+  margin-top: 30px;
+  color: black;
+  height: 95vh;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.image {
+  margin-top: 45px;
+  width: fit-content;
+  height: 80%;
+  opacity: 0.7;
+}
+.dashboardimage {
+  overflow: hidden;
+}
+.description {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-left: 20px;
+}
+.welcome {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+#admindashboardimage {
+  width: 700px;
+  object-fit: fill;
+  height: 114%;
+}
+.explore {
+  color: white;
+  background-color: black;
+  border-radius: 5px;
+  border-style: none;
+  padding: 5px;
+}
+.explore:hover {
+  transform: scale(1.5);
+  margin-left: 25px;
+}
+.logout {
+  color: white;
+  background-color: rgb(114, 114, 211);
+  border-radius: 50px;
+  border-style: none;
+  padding: 15px;
+  margin-top: 20px;
+}
+#logoutuser:hover {
+  transform: scale(1.5);
+  margin-left: 105px;
+}
+#main {
+  height: 80vh;
+  position: relative;
+}
+.custom-shape-divider-top-1640674066 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.custom-shape-divider-top-1640674066 svg {
+  position: relative;
+  display: block;
+  width: calc(110% + 1.3px);
+  height: 150px;
+}
+
+.custom-shape-divider-top-1640674066 .shape-fill {
+  fill: #2c3370;
+}
+@media only screen and (max-width: 600px) {
+  .image {
+    display: none;
+  }
+  .custom-shape-divider-top-1640674066 {
+    display: none;
+  }
+}

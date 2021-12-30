@@ -1,7 +1,12 @@
 import {
+  ASSIGN_PROJECT_FAIL,
+  ASSIGN_PROJECT_SUCCESS,
   DELETE_PROJECT_FAIL,
   DELETE_PROJECT_SUCCESS,
+  GET_PROJECTS_FAIL,
   GET_PROJECTS_SUCCESS,
+  MARK_AS_COMPLETE_FAIL,
+  MARK_AS_COMPLETE_SUCCESS,
   REGISTERPROJECT_FAIL,
   REGISTERPROJECT_SUCCESS,
 } from "../types";
@@ -23,11 +28,12 @@ export const registerProject =
       console.log(data);
       dispatch({
         type: REGISTERPROJECT_SUCCESS,
-        payload: data,
+        payload: data.message,
       });
     } catch (error) {
       dispatch({
         type: REGISTERPROJECT_FAIL,
+        payload: error.message,
       });
     }
   };
@@ -45,19 +51,22 @@ export const getProjects = () => async (dispatch) => {
       "http://localhost:8088/projects/getallprojects",
       config
     );
-    console.log(data);
 
     dispatch({
       type: GET_PROJECTS_SUCCESS,
       payload: data,
     });
   } catch (error) {
-    console.log(error.message);
+    dispatch({
+      type: GET_PROJECTS_FAIL,
+      payload: error.message,
+    });
   }
 };
 export const deleteProject =
   ({ projectid }) =>
   async (dispatch) => {
+    console.log(projectid);
     try {
       const { data } = await axios.post(
         "http://localhost:8088/projects/deleteproject",
@@ -65,19 +74,61 @@ export const deleteProject =
           projectid,
         }
       );
-      console.log(data);
-      {
-        data.message
-          ? dispatch(getProjects())
-          : dispatch({
-              type: DELETE_PROJECT_FAIL,
-              payload: data,
-            });
-      }
+
+      dispatch({
+        type: DELETE_PROJECT_SUCCESS,
+        payload: projectid,
+      });
     } catch (error) {
       dispatch({
         type: DELETE_PROJECT_FAIL,
-        payload: error,
+        payload: error.message,
       });
     }
   };
+export const markascomplete = (projectid) => async (dispatch) => {
+  console.log(projectid);
+  try {
+    const { data } = await axios.post(
+      "http://localhost:8088/projects/updateproject",
+      { projectid }
+    );
+    console.log(data);
+    dispatch({ type: MARK_AS_COMPLETE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: MARK_AS_COMPLETE_FAIL,
+      payload: error,
+    });
+  }
+};
+
+export const assignproject =
+  ({ projectid, userone, usertwo, userthree, userfour, userfive }) =>
+  async (dispatch) => {
+    try {
+      console.log(projectid);
+      const { data } = await axios.post(
+        "http://localhost:8088/projects/assignproject",
+        { projectid, userone, usertwo, userthree, userfour, userfive }
+      );
+      dispatch({
+        type: ASSIGN_PROJECT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error.message);
+      dispatch({
+        type: ASSIGN_PROJECT_FAIL,
+        payload: error.message,
+      });
+    }
+  };
+export const getcompleteprojects = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get(
+      "http://localhost:8088/projects/completedprojects"
+    );
+    console.log(data);
+  } catch (error) {}
+};
