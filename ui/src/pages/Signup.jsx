@@ -13,6 +13,7 @@ function Signup() {
     firstname: "",
     lastname: "",
     email: "",
+    phone: "",
     password: "",
     confirmpassword: "",
   });
@@ -79,6 +80,15 @@ function Signup() {
               value={data.email}
               type="text"
               placeholder="enter email"
+              required
+            />
+            <label>Phone number:</label>
+            <input
+              id="phone"
+              onChange={(e) => handle(e)}
+              value={data.phone}
+              type="text"
+              placeholder="+254..."
               required
             />
             <label>Password</label>

@@ -14,5 +14,5 @@ AND email NOT in (SELECT usertwo from userProjects)
 AND email not in (SELECT userthree from userProjects) 
 AND email not in (SELECT userfour from userProjects) 
 AND email not in (SELECT userfive from userProjects)
-and isDeleted  = 0;
+AND isDeleted  = 0;
 END;

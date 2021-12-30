@@ -1,10 +1,9 @@
-CREATE OR ALTER TRIGGER [dbo].[userproject]
+CREATE OR ALTER TRIGGER [dbo].[userprojectdelete]
 ON [dbo].[projectDetails]
 AFTER UPDATE
 AS 
 BEGIN 
-UPDATE [dbo].[userDetails]
-SET projectId = 0
+DELETE FROM [dbo].[userProjects]
 WHERE projectId = (
     SELECT projectId FROM inserted i
 )

@@ -6,21 +6,22 @@ const cors = require("cors");
 
 const { registration, projectAssign } = require("./controllers");
 
-const run = async () => {
-  cron.schedule("2 * * * * *", async () => {
-    await registration.run();
-  });
+// const run = async () => {
+cron.schedule("2  * * * *", () => {
+  // console.log("joan");
+  registration();
+  // registration.run();
+});
+// cron.schedule("2 * * * * *", async () => {
+//   await projectAssign.run();
+// });
 
-  cron.schedule("2 * * * * *", async () => {
-    await projectAssign.run();
-  });
+cron.schedule("2 * * * * *", () => {
+  taskAssign();
+});
+// };
 
-  cron.schedule("2 * * * * *", async () => {
-    await taskAssign.run();
-  });
-};
-
-run();
+// run();
 
 const app = express();
 app.use(express.json());

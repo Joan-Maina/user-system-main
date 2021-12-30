@@ -21,6 +21,7 @@ export const login =
         email,
         password,
       });
+      console.log(data);
       if (data.user) {
         localStorage.setItem("user", JSON.stringify(data));
         dispatch({
@@ -39,13 +40,14 @@ export const login =
   };
 
 export const register =
-  ({ firstname, lastname, email, password, confirmpassword }) =>
+  ({ firstname, lastname, email, phone, password, confirmpassword }) =>
   async (dispatch) => {
     try {
       const { data } = await axios.post("http://localhost:8000/users/signup", {
         firstname,
         lastname,
         email,
+        phone,
         password,
         confirmpassword,
       });
