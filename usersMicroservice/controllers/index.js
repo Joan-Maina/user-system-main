@@ -47,30 +47,33 @@ const getusers = async (req, res) => {
     try {
       let { email, password } = req.body;
       let { recordset } = await dbconnection.execute("getuser", { email });
-  
       let user = recordset[0];
+    
       if (!user)
         return res.send({ message: "Account does not exist" });
   
       let auth = await bcrypt.compare(password, user.password);
-  
+    console.log(email,password);
+
       if (!auth) return res.send({ message: "Incorrect password provided" });
   
       const token = jwtgenerate({ email, password });
       if (!token) return res.send("Encountered problem generating token.");
+      console.log(token)
       res.send({
         user: lodash.pick(user, ["firstname", "lastname", "email", "isAdmin"]),
         token,
       });
     } catch (error) {
-      res.send(error);
+      console.log(error.message);
+      res.status(400).send(error);
     }
   };
   const signup = async (req, res) => {
     try {
       //get user input
-      const { firstname, lastname, email, password, confirmpassword } = req.body;
-  
+      const { firstname, lastname, email,phone, password, confirmpassword } = req.body;
+  console.log(phone)
       //compare password and confirmpassword
       if (password !== confirmpassword)
         return res.status(401).send({ message: "Passwords do not match" });
@@ -95,11 +98,12 @@ const getusers = async (req, res) => {
       await dbconnection.execute("registeruser", {
         firstname,
         lastname,
-        email,
-        pass,
+        email,phone,
+        password:pass,
       });
       res.status(201).send({ message: "Successfully registered" });
     } catch (error) {
+      console.log(error.message);
       res.status(500).send("Error");
     }
   };

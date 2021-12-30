@@ -3,6 +3,8 @@ import {
   ASSIGN_PROJECT_SUCCESS,
   DELETE_PROJECT_FAIL,
   DELETE_PROJECT_SUCCESS,
+  GET_COMPLETE_PROJECTSUCCESS,
+  GET_COMPLETE_PROJECTFAIL,
   GET_PROJECTS_FAIL,
   GET_PROJECTS_SUCCESS,
   MARK_AS_COMPLETE_FAIL,
@@ -129,6 +131,16 @@ export const getcompleteprojects = () => async (dispatch) => {
     const { data } = await axios.get(
       "http://localhost:8088/projects/completedprojects"
     );
+
     console.log(data);
-  } catch (error) {}
+    dispatch({
+      type: GET_COMPLETE_PROJECTSUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_COMPLETE_PROJECTFAIL,
+      payload: error.message,
+    });
+  }
 };

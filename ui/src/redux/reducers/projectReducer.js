@@ -3,6 +3,8 @@ import {
   ASSIGN_PROJECT_SUCCESS,
   DELETE_PROJECT_FAIL,
   DELETE_PROJECT_SUCCESS,
+  GET_COMPLETE_PROJECTFAIL,
+  GET_COMPLETE_PROJECTSUCCESS,
   GET_PROJECTS_FAIL,
   GET_PROJECTS_SUCCESS,
   MARK_AS_COMPLETE_FAIL,
@@ -12,7 +14,13 @@ import {
   REGISTERPROJECT_SUCCESS,
 } from "../types";
 
-const initialState = { loading: false, error: "", projects: [], message: "" };
+const initialState = {
+  loading: false,
+  error: "",
+  projects: [],
+  completeprojects: [],
+  message: "",
+};
 const projectReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case REGISTERPROJECT:
@@ -90,6 +98,20 @@ const projectReducer = (state = initialState, { type, payload }) => {
         ...state,
         error: payload,
         message: "",
+      };
+    case GET_COMPLETE_PROJECTFAIL:
+      return {
+        ...state,
+        error: payload,
+        message: "",
+        completeprojects: [],
+      };
+    case GET_COMPLETE_PROJECTSUCCESS:
+      return {
+        ...state,
+        error: "",
+        message: "successfully got complete projects",
+        completeprojects: payload,
       };
     default:
       return state;
