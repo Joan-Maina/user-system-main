@@ -1,7 +1,6 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import "../styles/Project.css";
 import moment from "moment";
+import { Link, useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReactTooltip from "react-tooltip";
@@ -11,9 +10,10 @@ import {
   markascomplete,
 } from "../redux/actions/projects";
 import { getallusers } from "../redux/actions/auth";
-import { Link, useHistory } from "react-router-dom";
 import Button from "../components/Button";
 import { getTasks } from "../redux/actions/tasks";
+import Navbar from "../components/Navbar";
+import "../styles/Project.css";
 
 function Project() {
   const dispatch = useDispatch();

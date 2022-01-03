@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
+import { login } from "../redux/actions/auth";
 import "../styles/Login.css";
 import Button from "../components/Button";
-import { login } from "../redux/actions/auth";
 
 function Login() {
   const { user, error } = useSelector((state) => state.auth);
@@ -38,7 +39,12 @@ function Login() {
   return (
     <>
       <div className="main">
-        <div className="frontground">
+        <motion.div
+          className="frontground"
+          initial={{ x: -200 }}
+          animate={{ x: 0 }}
+          transition={{ type: "spring", duration: 2 }}
+        >
           <div className="photo">
             <img
               className="loginImage"
@@ -83,7 +89,7 @@ function Login() {
               <h2>{error}.</h2>
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
     </>
   );

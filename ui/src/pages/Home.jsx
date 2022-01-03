@@ -1,8 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { motion } from "framer-motion/dist/framer-motion";
 import Navbar from "../components/Navbar";
 import { logout } from "../redux/actions/auth";
-import { Link, useHistory } from "react-router-dom";
 import "../styles/Home.css";
 
 function Home() {
@@ -42,7 +43,13 @@ function Home() {
                 fringilla eros gravida eget.
               </p>
               <Link to="project">
-                <button className="explore">EXPLORE</button>
+                <motion.button
+                  className="explore"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 2 }}
+                >
+                  EXPLORE
+                </motion.button>
               </Link>
             </div>
           </div>
@@ -86,7 +93,13 @@ function Home() {
               fringilla eros gravida eget.
             </p>
             <Link to="tasks">
-              <button className="explore">CHECK YOUR TASKS</button>
+              <motion.button
+                className="explore"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2 }}
+              >
+                CHECK YOUR TASKS
+              </motion.button>
             </Link>
             <button
               className="logout"
