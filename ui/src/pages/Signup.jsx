@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/Signup.css";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
 import Button from "../components/Button";
 import { register } from "../redux/actions/auth";
 
@@ -43,7 +44,12 @@ function Signup() {
   return (
     <>
       <div className="main">
-        <div className="frontground">
+        <motion.div
+          className="frontground"
+          initial={{ x: -200 }}
+          animate={{ x: 0 }}
+          transition={{ type: "spring", duration: 2 }}
+        >
           <div className="photo">
             <img
               className="loginImage"
@@ -114,7 +120,7 @@ function Signup() {
               <p>Already have an account? </p>
             </Link>
           </form>
-        </div>
+        </motion.div>
       </div>
     </>
   );
